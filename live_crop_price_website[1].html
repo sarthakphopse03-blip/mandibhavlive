@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MandiBhavLive</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; background:#f4f6f8; }
+    header { background:#2e7d32; color:#fff; padding:15px; text-align:center; }
+    .container { padding:15px; }
+    select { width:100%; padding:10px; margin-bottom:10px; }
+    table { width:100%; border-collapse:collapse; background:#fff; }
+    th, td { padding:10px; border:1px solid #ddd; text-align:center; }
+    th { background:#e8f5e9; }
+    footer { text-align:center; padding:10px; font-size:14px; color:#555; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>MandiBhavLive</h1>
+    <p>Aaj ke taaza mandi bhav</p>
+  </header>
+
+  <div class="container">
+    <label>Crop Select Kare:</label>
+    <select id="cropSelect" onchange="loadData()">
+      <option value="wheat">Gehu (Wheat)</option>
+      <option value="rice">Chawal (Rice)</option>
+      <option value="onion">Pyaaz (Onion)</option>
+    </select>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Mandi</th>
+          <th>Min Price (₹)</th>
+          <th>Max Price (₹)</th>
+        </tr>
+      </thead>
+      <tbody id="priceTable"></tbody>
+    </table>
+  </div>
+
+  <footer>
+    © 2025 MandiBhavLive | Farmer ke liye banaaya gaya
+  </footer>
+
+  <script>
+    const data = {
+      wheat: [
+        { mandi: "Indore", min: 2200, max: 2400 },
+        { mandi: "Bhopal", min: 2150, max: 2350 }
+      ],
+      rice: [
+        { mandi: "Raipur", min: 3000, max: 3300 },
+        { mandi: "Nagpur", min: 2900, max: 3200 }
+      ],
+      onion: [
+        { mandi: "Nashik", min: 1200, max: 1600 },
+        { mandi: "Pune", min: 1300, max: 1700 }
+      ]
+    };
+
+    function loadData() {
+      const crop = document.getElementById('cropSelect').value;
+      const table = document.getElementById('priceTable');
+      table.innerHTML = '';
+      data[crop].forEach(item => {
+        table.innerHTML += `<tr><td>${item.mandi}</td><td>${item.min}</td><td>${item.max}</td></tr>`;
+      });
+    }
+    loadData();
+  </script>
+</body>
+</html>
