@@ -73,3 +73,128 @@
   </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Maharashtra Live Mandi Bhav</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  margin: 0;
+  padding: 20px;
+}
+
+h2 {
+  text-align: center;
+  color: #2c3e50;
+}
+
+select {
+  padding: 10px;
+  width: 300px;
+  margin: 20px auto;
+  display: block;
+  font-size: 16px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+th {
+  background: #27ae60;
+  color: white;
+}
+
+tr:nth-child(even) {
+  background: #f2f2f2;
+}
+</style>
+</head>
+
+<body>
+
+<h2>🌾 Maharashtra Live Mandi Bhav</h2>
+
+<select id="district">
+  <option value="">Select District</option>
+</select>
+
+<table>
+  <thead>
+    <tr>
+      <th>District</th>
+      <th>Mandi</th>
+      <th>Commodity</th>
+      <th>Min Price</th>
+      <th>Max Price</th>
+      <th>Modal Price</th>
+    </tr>
+  </thead>
+  <tbody id="mandiData"></tbody>
+</table>
+
+<script>
+const API_KEY = "YOUR_API_KEY_HERE";
+const API_URL = "https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070";
+
+let allData = [];
+
+fetch(`${API_URL}?api-key=${API_KEY}&format=json&filters[state]=Maharashtra&limit=1000`)
+  .then(response => response.json())
+  .then(data => {
+    allData = data.records;
+    loadDistricts();
+  })
+  .catch(err => {
+    alert("Data load nahi hua. API key check karo.");
+    console.error(err);
+  });
+
+function loadDistricts() {
+  const districtSelect = document.getElementById("district");
+  const districts = [...new Set(allData.map(item => item.district))];
+
+  districts.forEach(d => {
+    const option = document.createElement("option");
+    option.value = d;
+    option.textContent = d;
+    districtSelect.appendChild(option);
+  });
+}
+
+document.getElementById("district").addEventListener("change", function () {
+  const selectedDistrict = this.value;
+  const tbody = document.getElementById("mandiData");
+  tbody.innerHTML = "";
+
+  allData
+    .filter(item => item.district === selectedDistrict)
+    .forEach(item => {
+      const row = `
+        <tr>
+          <td>${item.district}</td>
+          <td>${item.market}</td>
+          <td>${item.commodity}</td>
+          <td>${item.min_price}</td>
+          <td>${item.max_price}</td>
+          <td>${item.modal_price}</td>
+        </tr>`;
+      tbody.innerHTML += row;
+    });
+});
+</script>
+
+</body>
+</html>
