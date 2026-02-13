@@ -238,4 +238,76 @@ document.getElementById("district").addEventListener("change", function () {
   <option value="Washim">Washim</option>
   <option value="Yavatmal">Yavatmal</option>
 </select>
+<h2>Mandi Price Check</h2>
+
+<!-- District -->
+<label>District:</label>
+<select id="district"></select>
+
+<br><br>
+
+<!-- Vegetable -->
+<label>Vegetable:</label>
+<select id="vegetable">
+  <option>Potato</option>
+  <option>Onion</option>
+  <option>Tomato</option>
+  <option>Brinjal</option>
+  <option>Cabbage</option>
+</select>
+
+<br><br>
+
+<button onclick="showPrice()">Check Price</button>
+
+<h3 id="result"></h3>
+
+<script>
+
+// AUTO LOAD DISTRICTS
+const districts = [
+"Ahmednagar","Akola","Amravati","Aurangabad","Beed","Bhandara",
+"Buldhana","Chandrapur","Dhule","Gadchiroli","Gondia","Hingoli",
+"Jalgaon","Jalna","Kolhapur","Latur","Mumbai City","Mumbai Suburban",
+"Nagpur","Nanded","Nandurbar","Nashik","Osmanabad","Palghar",
+"Parbhani","Pune","Raigad","Ratnagiri","Sangli","Satara",
+"Sindhudurg","Solapur","Thane","Wardha","Washim","Yavatmal"
+];
+
+const districtSelect = document.getElementById("district");
+
+districts.forEach(d => {
+  let opt = document.createElement("option");
+  opt.value = d;
+  opt.textContent = d;
+  districtSelect.appendChild(opt);
+});
+
+
+// SAMPLE PRICE DATA (DEMO)
+const priceData = {
+  Pune:{Potato:22, Onion:30, Tomato:18},
+  Nashik:{Potato:20, Onion:28, Tomato:16},
+  Nagpur:{Potato:25, Onion:32, Tomato:19},
+  Ahmednagar:{Potato:21, Onion:29, Tomato:17}
+};
+
+
+// SHOW PRICE FUNCTION
+function showPrice(){
+
+  const district = document.getElementById("district").value;
+  const veg = document.getElementById("vegetable").value;
+
+  if(priceData[district] && priceData[district][veg]){
+    document.getElementById("result").innerText =
+      `Price in ${district}: ₹${priceData[district][veg]} per kg`;
+  }
+  else{
+    document.getElementById("result").innerText =
+      "Price data not available (add in priceData)";
+  }
+}
+
+</script>
 
